@@ -1,0 +1,51 @@
+{
+	"ImportPath": "github.com/kkrs/godi-code",
+	"GoVersion": "go1.7",
+	"GodepVersion": "v74",
+	"Deps": [
+		{
+			"ImportPath": "github.com/golang/protobuf/proto",
+			"Rev": "1f49d83d9aa00e6ce4fc8258c71cc7786aec968a"
+		},
+		{
+			"ImportPath": "golang.org/x/net/context",
+			"Rev": "71a035914f99bb58fe82eac0f1289f10963d876c"
+		},
+		{
+			"ImportPath": "google.golang.org/appengine",
+			"Rev": "78199dcb0669fc381c22e919e1e97eba879e8f60"
+		},
+		{
+			"ImportPath": "google.golang.org/appengine/datastore",
+			"Rev": "78199dcb0669fc381c22e919e1e97eba879e8f60"
+		},
+		{
+			"ImportPath": "google.golang.org/appengine/internal",
+			"Rev": "78199dcb0669fc381c22e919e1e97eba879e8f60"
+		},
+		{
+			"ImportPath": "google.golang.org/appengine/internal/app_identity",
+			"Rev": "78199dcb0669fc381c22e919e1e97eba879e8f60"
+		},
+		{
+			"ImportPath": "google.golang.org/appengine/internal/base",
+			"Rev": "78199dcb0669fc381c22e919e1e97eba879e8f60"
+		},
+		{
+			"ImportPath": "google.golang.org/appengine/internal/datastore",
+			"Rev": "78199dcb0669fc381c22e919e1e97eba879e8f60"
+		},
+		{
+			"ImportPath": "google.golang.org/appengine/internal/log",
+			"Rev": "78199dcb0669fc381c22e919e1e97eba879e8f60"
+		},
+		{
+			"ImportPath": "google.golang.org/appengine/internal/modules",
+			"Rev": "78199dcb0669fc381c22e919e1e97eba879e8f60"
+		},
+		{
+			"ImportPath": "google.golang.org/appengine/internal/remote_api",
+			"Rev": "78199dcb0669fc381c22e919e1e97eba879e8f60"
+		}
+	]
+}
