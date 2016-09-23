@@ -1,9 +1,10 @@
 package message
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/kkrs/di"
 
 	"golang.org/x/net/context"
 
@@ -37,50 +38,54 @@ func (tr DSTransport) List() ([]Message, error) {
 	return msgs, err
 }
 
-// Send wraps around DSTransport.Send and responds to POST:/api/messages
-func Send(rw http.ResponseWriter, req *http.Request) {
-	var msg Message
-	err := Unmarshal(req.Body, &msg)
-	if err != nil {
-		HTTPError(
-			rw,
-			http.StatusInternalServerError,
-			fmt.Errorf("error reading request: %s", err),
-		)
-	}
-
-	err = DSTransport{appengine.NewContext(req)}.Send(msg)
-	if err != nil {
-		HTTPError(
-			rw,
-			http.StatusInternalServerError,
-			fmt.Errorf("error sending message: %s", err),
-		)
-	}
-	rw.WriteHeader(http.StatusOK)
+// ListTransport implements Transport and stores messages in a slice. It is
+// required to be a singleton so that the messages stored in it are not
+// lost.
+type ListTransport struct {
+	msgs []Message
 }
 
-// List wraps around DSTransport.List and responds to GET:/spy/messages
-func List(rw http.ResponseWriter, req *http.Request) {
-	msgs, err := DSTransport{appengine.NewContext(req)}.List()
-	if err != nil {
-		HTTPError(
-			rw,
-			http.StatusInternalServerError,
-			fmt.Errorf("error getting messages: %s", err),
-		)
-		return
-	}
+func (tr *ListTransport) Send(msg Message) error {
+	tr.msgs = append(tr.msgs, msg)
+	return nil
+}
 
-	data, err := json.Marshal(msgs)
-	if err != nil {
-		HTTPError(
-			rw,
-			http.StatusInternalServerError,
-			fmt.Errorf("error marshalling results: %s", err),
-		)
-		return
+func (tr *ListTransport) List() ([]Message, error) {
+	return tr.msgs, nil
+}
+
+// ReqFactory knows how to create Controllers and its dependencies.
+type ReqFactory struct {
+	af  AppFactory // access to singletons
+	req *http.Request
+}
+
+func (fa ReqFactory) newTransport() Transport {
+	switch fa.af.Env {
+	case "e2e":
+		return DSTransport{appengine.NewContext(fa.req)}
+	case "int":
+		return fa.af.ListTr
+	default:
+		panic(fmt.Sprintf("do not know how to make Transport for env %q", fa.af.Env))
 	}
-	rw.WriteHeader(http.StatusOK)
-	rw.Write(data)
+}
+
+func (fa ReqFactory) NewController(label string) di.Controller {
+	switch label {
+	case "message":
+		return MessageController{fa.newTransport()}
+	default:
+		panic(fmt.Sprintf("do not know how to make %q", label))
+	}
+}
+
+// AppFactory contains singletons.
+type AppFactory struct {
+	Env    string
+	ListTr *ListTransport
+}
+
+func (fa AppFactory) With(req *http.Request) di.RequestFactory {
+	return ReqFactory{fa, req}
 }

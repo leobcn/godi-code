@@ -7,6 +7,8 @@ import (
 )
 
 func init() {
-	http.Handle(APIPath, http.HandlerFunc(Send))
-	http.Handle(SpyPath, http.HandlerFunc(List))
+	router := Setup(AppFactory{"e2e", nil}, []Registration{
+		{MessageController{}, "message"},
+	})
+	http.Handle("/", router)
 }

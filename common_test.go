@@ -61,3 +61,20 @@ func verify(t *testing.T, desc string, resp *http.Response, err error, status in
 		}
 	}
 }
+
+func testSend(t *testing.T, server string) {
+	t.Logf("Scenario: Sending a message delivers it successfully")
+	t.Log()
+	msg := Message{"kkrs", "world", "hello"}
+	// create request to send message
+	req, desc := sendRequest(server, msg)
+	resp, err := http.DefaultClient.Do(req)
+	verify(t, desc, resp, err, http.StatusOK, nil)
+
+	// create request to list all messages sent
+	req, desc = listRequest(server)
+	resp, err = http.DefaultClient.Do(req)
+
+	// verify that it contains the one sent earlier
+	verify(t, desc, resp, err, http.StatusOK, []Message{msg})
+}
