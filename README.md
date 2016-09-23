@@ -17,9 +17,11 @@ from the repository root. Since the development server stores state, re-running 
 requires that the development server be restarted.
 
 ### first
-The test for this branch can then be run with `go test -v`.
+Checkout the branch with `git checkout first`. Run the test so `go test -v`.
 
 ### di
-The branch `di` has two tests, e2e, int and can be run with
-`go test -v -tags=e2e` # end-to-end, requires development server to be started
-`go test -v -tags=int` # no need for development server
+The branch `di` has two tests, e2e, int. To run
+
+- `git checkout di`.
+- `go test -v -tags=e2e` # end-to-end, requires development server to be started
+- `go test -v -tags=int` # no need for development server

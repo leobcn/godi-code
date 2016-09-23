@@ -48,11 +48,11 @@ type MessageController struct {
 	Transport Transport // dependency injected
 }
 
-// MessageController would like POST:/api/messages to be dispatched to Send.
+// MessageController specifies how its methods should be bound.
 func (MessageController) Bindings() []di.Binding {
 	return []di.Binding{
-		{"POST", APIPath, "Send"},
-		{"GET", SpyPath, "List"},
+		{"POST", APIPath, "Send"}, // POST:/api/messages -> Send
+		{"GET", SpyPath, "List"},  // GET:/spy/messages -> List
 	}
 }
 
