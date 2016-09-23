@@ -8,6 +8,14 @@
 			"Rev": "1f49d83d9aa00e6ce4fc8258c71cc7786aec968a"
 		},
 		{
+			"ImportPath": "github.com/kkrs/di",
+			"Rev": "3db358a8b5fce3c8e41d83a2d99b82c0c2c99b6f"
+		},
+		{
+			"ImportPath": "github.com/kkrs/di/router",
+			"Rev": "3db358a8b5fce3c8e41d83a2d99b82c0c2c99b6f"
+		},
+		{
 			"ImportPath": "golang.org/x/net/context",
 			"Rev": "71a035914f99bb58fe82eac0f1289f10963d876c"
 		},
