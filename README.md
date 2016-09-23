@@ -8,7 +8,8 @@ This repository contains code for the blog post above.
 - Download this repository with `go get -d github.com/kkrs/godi-code`
 
 ## Running Tests
-Running the e2e test requires that the appengine development server be running. It can be started by running
-`dev_appserver.py --skip_sdk_update_check=true --clear_datastore=true app`. from the root of the repository.
+Running the end-to-end test requires that the appengine development server be running. It can be
+started by running `dev_appserver.py --skip_sdk_update_check=true --clear_datastore=true app`
+from the repository root.
 
-Test for this branch can be run with `go test -v`.
+The test for this branch can then be run with `go test -v`.
